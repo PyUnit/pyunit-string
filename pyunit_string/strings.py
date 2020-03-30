@@ -30,25 +30,33 @@ class Strings:
         return other
 
     def __add__(self, other):
-        other = self._change_str(other)
-        obj = self.value + other
+        """加强两个属性，一个是可以加数字类型。另一个是可以加列表和元组。
+
+        当字符串加列表或者元组是：
+
+        >>> '#'+[1,2,3] #返回 1#2#3，类似于join
+        """
+        if isinstance(other, (list, tuple)):
+            return self.join(other)
+        else:
+            other = self._change_str(other)
+            obj = self.value + other
         return Strings(obj)
 
     def __iadd__(self, other):
         """加强+=模式，增加数字类型"""
-        other = self._change_str(other)
-        self.value += other
+        if isinstance(other, (list, tuple)):
+            self.value = self.value.join(map(self._change_str, other))
+        else:
+            other = self._change_str(other)
+            self.value += other
         return self
 
     def join(self, iterable):
         """增加数字类型"""
-        iterable = map(lambda x: str(x), iterable)
-        self.value = self.value.join(iterable)
-        return self
-
-    def upper(self):
-        self.value = self.value.upper()
-        return self
+        iterable = map(self._change_str, iterable)
+        obj = self.value.join(iterable)
+        return Strings(obj)
 
     def json_dump(self, json_=None, file=None, **kwargs):
         """获取json格式
@@ -107,3 +115,31 @@ class Strings:
             else:
                 break
         return ls
+
+    def __mul__(self, other):
+        """加强相乘的功能
+
+        如果other是列表：那么按到列表的索引对应的字符相乘
+
+        >>> 'abc' * [1,2,3] #返回 abbccc
+
+
+        如果other是字典，那么按到key的字符串进行相乘
+
+        >>> 'abc' * {'a':1,'b':2,'c':3} #返回 abbccc
+
+        """
+        value = self.value
+        if isinstance(other, int):
+            value = value * other
+        elif isinstance(other, (list, tuple)):
+            if len(other) == self.length():
+                ls = map(lambda x: value[x[0]] * x[1], enumerate(other))
+                value = ''.join(ls)
+            else:
+                raise IndexError('列表的长度不等于字符串的长度，无法进行按索引相乘')
+        elif isinstance(other, dict):
+            for key, index in other.items():
+                if key in value:
+                    value = re.sub(key, key * index, value)
+        return Strings(value)

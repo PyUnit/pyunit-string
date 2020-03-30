@@ -12,13 +12,23 @@ def add_test():
     s += 1 + 1j
     s += 1
     s += 'a'
-    upper = s.upper()
-    print(upper, type(upper))
+    s = s + 9.9
+    print(s, type(s))
+
+    print('---------------------')
+    s = Strings('b')
+    b = s + [1, 2, 3]
+    print(b, type(b), s)
+
+    print('---------------------')
+    s = Strings('b')
+    s += [1, 2, 3, 4]
+    print(s, type(s))
 
 
 def join_test():
     s = Strings('#')
-    b = s.join([1, 2, 3, 4])
+    b = s.join([1, 2, 3, 4j, 3.2])
     print(b, type(b))
 
 
@@ -61,6 +71,17 @@ def find_test():
     print(ls)
 
 
+def mul_test():
+    s = Strings('abc')
+    b = s * (1, 2, 4)
+    print(b, type(b))
+
+    print('-----------------')
+    s = Strings('张三爱李四,王老五爱张三')
+    c = s * {'张三': 3, '李四': 2, '讨厌': 2}
+    print(c, type(c))
+
+
 if __name__ == '__main__':
     add_test()
     join_test()
@@ -69,3 +90,4 @@ if __name__ == '__main__':
     replace_test()
     length_test()
     find_test()
+    mul_test()
