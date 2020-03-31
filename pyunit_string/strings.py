@@ -143,3 +143,41 @@ class Strings:
                 if key in value:
                     value = re.sub(key, key * index, value)
         return Strings(value)
+
+    def distance(self, char1, char2) -> list:
+        """计算两个字符间的距离
+
+        比如：abc
+        计算a和b之间的距离，返回是：[1]
+        """
+        char1_ls = self.find(char1)
+        if char1_ls:
+            char2_ls = self.find(char2)
+            return [abs(x - y) - 1 for x in char1_ls for y in char2_ls]
+        return []
+
+    def list_subset_in_string(self, ls, force=False) -> bool:
+        """列表中的子集在字符串中
+        例如：list [a,b,c,d]，字符串：vid
+        d in vid 中返回true
+
+        :param ls: 列表
+        :param force: 是否全部满足
+        :return: 返回布尔值
+        """
+        forces = all if force else any
+        value = map(lambda x: x in self.value, ls)
+        return forces(value)
+
+    def string_in_list_subset(self, ls, force=False) -> bool:
+        """列表中的子集在字符串中
+        例如：list [abc,bbc,bc,dbc]，字符串：bc
+        bc in abc 中返回true
+
+        :param ls: 列表
+        :param force: 是否全部满足
+        :return: 返回布尔值
+        """
+        forces = all if force else any
+        value = map(lambda x: self.value in x, ls)
+        return forces(value)

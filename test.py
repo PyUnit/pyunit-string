@@ -82,6 +82,24 @@ def mul_test():
     print(c, type(c))
 
 
+def distance_test():
+    s = Strings('abcdefac')
+    ls = s.distance('a', 'c')
+    print(ls)
+
+
+def subset_in_string():
+    s = Strings('abc')
+    print(s.list_subset_in_string(['a', 'b', 'e'], force=False))  # 满足一个
+    print(s.list_subset_in_string(['a', 'b', 'e'], force=True))  # 满足所有
+
+
+def string_in_list_subset():
+    s = Strings('bc')
+    print(s.string_in_list_subset(['abc', 'b', 'e'], force=False))  # 满足一个
+    print(s.string_in_list_subset(['abc', 'b', 'e'], force=True))  # 满足所有
+
+
 if __name__ == '__main__':
     add_test()
     join_test()
@@ -91,3 +109,6 @@ if __name__ == '__main__':
     length_test()
     find_test()
     mul_test()
+    distance_test()
+    subset_in_string()
+    string_in_list_subset()
