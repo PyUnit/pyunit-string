@@ -4,7 +4,7 @@
 # @Author: Jtyoui@qq.com
 from .strings import Strings
 
-__version__ = '2020.3.30'
+__version__ = '2020.4.10'
 __author__ = 'Jtyoui'
 __description__ = '对python字符串str中的一些方法在抽象、在加强一些。让字符串操作使用起来更加方面'
 __email__ = 'jtyoui@qq.com'
